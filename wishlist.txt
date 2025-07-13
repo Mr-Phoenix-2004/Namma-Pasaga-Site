@@ -1,0 +1,11 @@
+ Bonus Features to Consider
+| Feature | Benefit | 
+| Shareable Wishlists | Users can send their wishlist to friends/family | 
+| Email Reminders | Notify users when wishlist items go on sale or restock | 
+| Wishlist Analytics | Track popular products and user intent | 
+| “Save for Later” in Cart | Let users move items from cart to wishlist | 
+| Guest Wishlist (via cookies) | Allow non-logged-in users to save items temporarily | 
+
+
+
+If you’d like, I can help you modularize this into reusable PHP functions or even integrate it with your existing cart and login system. Want to sketch out the UI next or explore how to sync it with Excel using PHPSpreadsheet?

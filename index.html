@@ -259,6 +259,19 @@
       window.location.href = 'login.html';
     }
   </script>
+  <button class="wishlist-btn" onclick="addToWishlist(productId)">❤️ Wishlist</button>
+
+<script>
+  function addToWishlist(productId) {
+    fetch('/add-to-wishlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ product_id: productId })
+    })
+    .then(response => response.json())
+    .then(data => alert(data.message));
+  }
+</script>
   <!-- ...existing code... -->
   <div id="dancing-title-container"></div>
   <div class="navbar">
@@ -273,14 +286,6 @@
       <button id="cart-btn">Cart (<span id="cart-count">0</span>)</button>
     </nav>
   </header>
-  <main>
-    <div id="product-pagination" class="pagination-bar">
-      <button id="prev-page" class="pagination-btn" disabled>&laquo; Prev</button>
-      <span id="page-indicator">Page 1</span>
-      <button id="next-page" class="pagination-btn">Next &raquo;</button>
-    </div>
-    <section class="products"></section>
-  </main>
   <!-- Cart Modal -->
   <div id="cart-modal">
     <div class="modal-content">
@@ -431,6 +436,7 @@
               <div class="product-actions">
                 <button class="add-to-cart">Add to Cart</button>
                 <a href="#" class="order-now-btn">Order Now</a>
+                <button class="like-btn" title="Add to Wishlist">❤️ Like</button>
               </div>
             </div>
           </div>
@@ -491,6 +497,29 @@
           document.getElementById('order-modal').style.display = 'flex';
           document.getElementById('order-form').reset();
           document.getElementById('order-success').style.display = 'none';
+        };
+        card.querySelector('.like-btn').onclick = function(ev) {
+          ev.stopPropagation();
+          const username = localStorage.getItem('np_user');
+          if (!username) {
+            alert('Please log in to use wishlist.');
+            return;
+          }
+          let wishlist = getWishlist(username);
+          if (!Array.isArray(wishlist)) wishlist = [];
+          if (!wishlist.includes(product.id)) {
+            wishlist.push(product.id);
+            saveWishlist(username, wishlist);
+            // Optionally, update button style to show liked
+            this.classList.add('liked');
+            this.textContent = '❤️ Liked';
+          } else {
+            // Optionally, allow unliking
+            wishlist = wishlist.filter(id => id !== product.id);
+            saveWishlist(username, wishlist);
+            this.classList.remove('liked');
+            this.textContent = '❤️ Like';
+          }
         };
       });
     }
@@ -728,12 +757,6 @@
       }, 1500);
     };
   </script>
-  <!-- Removed sort/filter bar here -->
-  <header>
-    <nav>
-      <button id="cart-btn">Cart (<span id="cart-count">0</span>)</button>
-    </nav>
-  </header>
   <main>
     <div id="product-pagination" class="pagination-bar">
       <button id="prev-page" class="pagination-btn" disabled>&laquo; Prev</button>
@@ -981,6 +1004,15 @@
       window.location.href = 'login.html';
     };
   }
+  // Save wishlist for a user
+function saveWishlist(username, wishlist) {
+    localStorage.setItem('wishlist_' + username, JSON.stringify(wishlist));
+}
+// Get wishlist for a user
+function getWishlist(username) {
+    return JSON.parse(localStorage.getItem('wishlist_' + username) || '[]');
+}
+
 </script>
 </body>
 </html>
